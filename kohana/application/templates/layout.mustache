@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head> 
+      <meta charset="utf-8">   
+      <title>{{{title}}}</title>
+
+      {{#assets.head.css}}
+      <link rel="stylesheet" href="{{.}}" type="text/css"/>
+      {{/assets.head.css}}
+      
+      {{#assets.head.js}}
+      <script src="{{.}}" type="text/javascript"></script>
+      {{/assets.head.js}}
+    </head>
+    
+    <body>
+        {{>content}}
+   </body>
+</html>   
