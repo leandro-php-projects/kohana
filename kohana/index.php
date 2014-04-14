@@ -8,12 +8,13 @@
  */
 $application = 'application';
 
+
 /**
  * The directory in which your modules are located.
  *
  * @link http://kohanaframework.org/guide/about.install#modules
  */
-$modules = 'modules';
+$modules = 'core/modules';
 
 /**
  * The directory in which the Kohana resources are located. The system
@@ -21,7 +22,7 @@ $modules = 'modules';
  *
  * @link http://kohanaframework.org/guide/about.install#system
  */
-$system = 'system';
+$system = 'core/system/3.2.2';
 
 /**
  * The default extension of resource files. If you change this, all resources
@@ -44,7 +45,8 @@ define('EXT', '.php');
  * When using a legacy application with PHP >= 5.3, it is recommended to disable
  * deprecated notices. Disable with: E_ALL & ~E_DEPRECATED
  */
-error_reporting(E_ALL | E_STRICT);
+//error_reporting(E_ALL | E_STRICT);
+//error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
 
 /**
  * End of standard configuration! Changing any of the code below should only be
@@ -52,60 +54,57 @@ error_reporting(E_ALL | E_STRICT);
  *
  * @link http://kohanaframework.org/guide/using.configuration
  */
-
 // Set the full path to the docroot
-define('DOCROOT', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
+define('DOCROOT', realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
+
 
 // Make the application relative to the docroot, for symlink'd index.php
-if ( ! is_dir($application) AND is_dir(DOCROOT.$application))
-	$application = DOCROOT.$application;
+if (!is_dir($application) AND is_dir(DOCROOT . $application))
+    $application = DOCROOT . $application;
 
 // Make the modules relative to the docroot, for symlink'd index.php
-if ( ! is_dir($modules) AND is_dir(DOCROOT.$modules))
-	$modules = DOCROOT.$modules;
+if (!is_dir($modules) AND is_dir(DOCROOT . $modules))
+    $modules = DOCROOT . $modules;
 
 // Make the system relative to the docroot, for symlink'd index.php
-if ( ! is_dir($system) AND is_dir(DOCROOT.$system))
-	$system = DOCROOT.$system;
+if (!is_dir($system) AND is_dir(DOCROOT . $system))
+    $system = DOCROOT . $system;
 
 // Define the absolute paths for configured directories
-define('APPPATH', realpath($application).DIRECTORY_SEPARATOR);
-define('MODPATH', realpath($modules).DIRECTORY_SEPARATOR);
-define('SYSPATH', realpath($system).DIRECTORY_SEPARATOR);
+define('APPPATH', realpath($application) . DIRECTORY_SEPARATOR);
+define('MODPATH', realpath($modules) . DIRECTORY_SEPARATOR);
+define('SYSPATH', realpath($system) . DIRECTORY_SEPARATOR);
 
 // Clean up the configuration vars
 unset($application, $modules, $system);
 
-if (file_exists('install'.EXT))
-{
-	// Load the installation check
-	return include 'install'.EXT;
+if (file_exists('install' . EXT)) {
+    // Load the installation check
+    return include 'install' . EXT;
 }
 
 /**
  * Define the start time of the application, used for profiling.
  */
-if ( ! defined('KOHANA_START_TIME'))
-{
-	define('KOHANA_START_TIME', microtime(TRUE));
+if (!defined('KOHANA_START_TIME')) {
+    define('KOHANA_START_TIME', microtime(TRUE));
 }
 
 /**
  * Define the memory usage at the start of the application, used for profiling.
  */
-if ( ! defined('KOHANA_START_MEMORY'))
-{
-	define('KOHANA_START_MEMORY', memory_get_usage());
+if (!defined('KOHANA_START_MEMORY')) {
+    define('KOHANA_START_MEMORY', memory_get_usage());
 }
 
 // Bootstrap the application
-require APPPATH.'bootstrap'.EXT;
+require APPPATH . 'bootstrap' . EXT;
 
 /**
  * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
  * If no source is specified, the URI will be automatically detected.
  */
 echo Request::factory()
-	->execute()
-	->send_headers(TRUE)
-	->body();
+        ->execute()
+        ->send_headers(TRUE)
+        ->body();
